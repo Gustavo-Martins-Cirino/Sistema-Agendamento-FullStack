@@ -1,33 +1,24 @@
-FROM maven:3.9.4-eclipse-temurin-17 AS builder
 
-WORKDIR /workspace
-
-# Copia somente arquivos do Maven para aproveitar cache de camadas
-COPY pom.xml mvnw mvnw.cmd ./
-COPY .mvn .mvn
-RUN mvn -B -N -s /dev/null dependency:go-offline || true
-
-# Copia o restante do projeto e builda o artefato
-COPY . .
-RUN mvn -B -DskipTests package
-
-FROM eclipse-temurin:17-jre-jammy AS runtime
-
-RUN groupadd -r app && useradd --no-log-init -r -g app app
-
+FROM maven:3.8-openjdk-17 AS build
 WORKDIR /app
 
-ENV JAVA_OPTS="-Xms256m -Xmx512m"
 
-# Porta padrão (pode ser override por variável de ambiente do Oracle)
+COPY pom.xml .
+
+
+RUN mvn dependency:go-offline
+
+
+COPY src ./src
+
+
+RUN mvn clean package -DskipTests
+
+
+FROM openjdk:17-slim
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
-
-# Copia o jar gerado do estágio de build (procura por target/*.jar)
-COPY --from=builder /workspace/target/*.jar app.jar
-
-RUN chown -R app:app /app
-
-USER app
-
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
-
+ENTRYPOINT ["java", "-jar", "app.jar"]
