@@ -35,8 +35,21 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Actuator para health checks e métricas (útil em Oracle Deployment) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
+		
+		<sourceDirectory>src/Main - SistemaAgendamento/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/Main - SistemaAgendamento/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
