@@ -43,6 +43,13 @@
 		</dependency>
 	</dependencies>
 	<build>
+		
+		<sourceDirectory>src/Main - SistemaAgendamento/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/Main - SistemaAgendamento/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

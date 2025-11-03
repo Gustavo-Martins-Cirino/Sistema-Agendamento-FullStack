@@ -3,6 +3,7 @@
 Este README traz comandos e instruções rápidas para gerar o artefato, criar a imagem Docker e preparar o deploy no Oracle (OCIR / Oracle Cloud Run / OKE).
 
 Pré-requisitos
+
 - Java 17 (para builds locais) ou usar o _Maven Wrapper_ incluso
 - Docker (se for publicar como container)
 - Credenciais Oracle (OCIR) se for push da imagem
@@ -31,6 +32,7 @@ docker run --rm -p 8080:8080 -e PORT=8080 -e SPRING_DATASOURCE_URL="jdbc:mysql:/
 ```
 
 Dicas para Oracle Cloud
+
 - Oracle aceita imagens em OCIR (Oracle Cloud Infrastructure Registry) ou deploy via container on Compute / OKE.
 - Configure variáveis de ambiente no painel de Deployment/Job/Function:
   - PORT (ex: 8080)
@@ -39,14 +41,17 @@ Dicas para Oracle Cloud
   - SPRING_DATASOURCE_PASSWORD
 
 Actuator e health checks
+
 - O projeto inclui `spring-boot-starter-actuator` e, por padrão, expõe endpoints: `/actuator/health`, `/actuator/info`, `/actuator/metrics`.
 - Configure o health check no Oracle apontando para `/actuator/health`.
 
 Notes
+
 - Dockerfile usa usuário não-root e otimizações de build em multi-stage.
 - As credenciais sensíveis não devem ficar no `application.properties` em produção; sempre utilize variáveis de ambiente/secret manager.
 
 Se quiser, eu posso também:
+
 - Gerar um `Procfile` para Cloud Run/Heroku-style deploys
 - Gerar um `docker-compose.yml` para desenvolvimento local
 - Ajudar a configurar push automatizado para OCIR (ex.: GitHub Actions)
