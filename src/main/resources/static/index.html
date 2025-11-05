@@ -721,6 +721,7 @@ function atualizarDashboard(periodo = 'total') {
             } else {
                 dados.forEach(item => lista.appendChild(renderFunction(item)));
             }
+            atualizarDashboard();
         }, 300);
 
 
@@ -729,7 +730,7 @@ function atualizarDashboard(periodo = 'total') {
                 const totalGanhos = dados.reduce((total, agendamento) => total + (agendamento.servico.valorServico || 0), 0);
                 window.ganhosCalculados = totalGanhos;
             }
-            atualizarDashboard();
+            
             return dados;
         } catch (error) {
     lista.innerHTML = "";
@@ -771,9 +772,16 @@ function atualizarDashboard(periodo = 'total') {
             fecharModalCadastro();
             if (method === 'POST') {
                 showToast(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} salvo com sucesso!`);
+                const lista = document.getElementById(tipo + "s-list"); 
+
+                if (lista && lista.rows.length === 1 && lista.rows[0].cells.length === 1) {
+                    lista.innerHTML = ""; // Limpa a mensagem de "Nenhum registro"
+                }
+
                 if (tipo === "cliente") document.getElementById("clientes-list").appendChild(renderCliente(itemSalvo));
                 else if (tipo === "funcionario") document.getElementById("funcionarios-list").appendChild(renderFuncionario(itemSalvo));
                 else if (tipo === "servico") document.getElementById("servicos-list").appendChild(renderServico(itemSalvo));
+
             } else {
                 showToast(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} atualizado com sucesso!`);
                 const tipoSingular = tipo;
