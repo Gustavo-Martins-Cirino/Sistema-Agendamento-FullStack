@@ -5,6 +5,13 @@ WORKDIR /workspace
 COPY . .
 
 
+RUN echo "=== ESTRUTURA DE PASTAS ==="
+RUN pwd
+RUN ls -la
+RUN echo "=== CONTEÚDO DA PASTA SistemaDeAgendamento-FullStack ==="
+RUN ls -la SistemaDeAgendamento-FullStack/
+
+
 WORKDIR /workspace/SistemaDeAgendamento-FullStack
 
 RUN mvn -B dependency:go-offline
