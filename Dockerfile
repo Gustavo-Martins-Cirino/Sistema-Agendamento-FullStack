@@ -11,8 +11,12 @@ RUN ls -la
 RUN echo "=== PROCURANDO POR POM.XML ==="
 RUN find . -name "pom.xml" -type f
 
+
+RUN mvn -B clean package -DskipTests
+
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
+
 
 COPY --from=build /workspace/target/*.jar app.jar
 
